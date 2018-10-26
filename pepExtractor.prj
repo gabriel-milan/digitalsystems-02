@@ -1,0 +1,5 @@
+work	"ADDER_1BIT.vhd"
+work	"BCD_FULLADDER_4BITS.vhd"
+work	"COMPARADOR_1BIT.vhd"
+work	"COMPARADOR_4BITS.vhd"
+work	"FULL_ADDER_4BITS.vhd"

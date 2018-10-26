@@ -1,0 +1,1 @@
+-intstyle "ise" -incremental -o "/home/sd/OPERADOR_BCD/SIMULATION_isim_beh.exe" -prj "/home/sd/OPERADOR_BCD/SIMULATION_beh.prj" "work.SIMULATION" 
