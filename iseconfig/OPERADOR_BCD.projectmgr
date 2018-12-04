@@ -21,14 +21,15 @@
          <ClosedNode>/BCD_FULLADDER_4BITS - Behavioral |home|gabriel-milan|GIT_REPOS|digitalsystems-02|BCD_FULLADDER_4BITS.vhd/W2 - FULL_ADDER_4BITS - Behavioral</ClosedNode>
          <ClosedNode>/BCD_FULLADDER_4BITS - Behavioral |home|gabriel-milan|GIT_REPOS|digitalsystems-02|BCD_FULLADDER_4BITS.vhd/W3 - FULL_ADDER_4BITS - Behavioral</ClosedNode>
          <ClosedNode>/BCD_FULLADDER_4BITS - Behavioral |home|gabriel-milan|GIT_REPOS|digitalsystems-02|BCD_FULLADDER_4BITS.vhd/W4 - FULL_ADDER_4BITS - Behavioral</ClosedNode>
-         <ClosedNode>/test_keyboard - Behavioral |home|gabriel-milan|GIT_REPOS|digitalsystems-02|test_keyboard.vhd</ClosedNode>
       </ClosedNodes>
-      <SelectedItems/>
+      <SelectedItems>
+         <SelectedItem>U0 - ps2_rx - arch (/home/gabriel-milan/GIT_REPOS/digitalsystems-02/ps2_rx.vhd)</SelectedItem>
+      </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000202000000010000000100000064000001f9000000020000000000000000000000000200000064ffffffff000000810000000300000002000001f90000000100000003000000000000000100000003</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem>test_keyboard - Behavioral (/home/gabriel-milan/GIT_REPOS/digitalsystems-02/test_keyboard.vhd)</CurrentItem>
+      <CurrentItem>U0 - ps2_rx - arch (/home/gabriel-milan/GIT_REPOS/digitalsystems-02/ps2_rx.vhd)</CurrentItem>
    </ItemView>
    <ItemView engineview="SynthesisOnly" sourcetype="DESUT_VHDL_ARCHITECTURE" guiview="Process" >
       <ClosedNodes>
@@ -40,13 +41,13 @@
          <ClosedNode>User Constraints</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>Synthesize - XST</SelectedItem>
+         <SelectedItem></SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000000000000000000f4000000010000000100000000000000000000000064ffffffff000000810000000000000001000000f40000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem>Synthesize - XST</CurrentItem>
+      <CurrentItem></CurrentItem>
    </ItemView>
    <ItemView guiview="File" >
       <ClosedNodes>
@@ -77,6 +78,20 @@
       <ClosedNodes>
          <ClosedNodesVersion>1</ClosedNodesVersion>
          <ClosedNode>Design Utilities</ClosedNode>
+      </ClosedNodes>
+      <SelectedItems>
+         <SelectedItem></SelectedItem>
+      </SelectedItems>
+      <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
+      <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
+      <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000000000000000000f4000000010000000100000000000000000000000064ffffffff000000810000000000000001000000f40000000100000000</ViewHeaderState>
+      <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
+      <CurrentItem></CurrentItem>
+   </ItemView>
+   <ItemView engineview="SynthesisOnly" sourcetype="DESUT_UCF" guiview="Process" >
+      <ClosedNodes>
+         <ClosedNodesVersion>1</ClosedNodesVersion>
+         <ClosedNode>User Constraints</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
          <SelectedItem></SelectedItem>
