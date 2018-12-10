@@ -28,6 +28,7 @@ begin
          X"37" when "0111",  -- 7
          X"38" when "1000",  -- 8
          X"39" when "1001",  -- 9
+			X"0D" when "1010",  -- Enter
          X"00" when others;  -- NULL
 
 end Behavioral;

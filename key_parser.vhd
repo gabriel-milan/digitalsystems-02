@@ -28,6 +28,7 @@ begin
          "0111" when "00111101",  -- 7
          "1000" when "00111110",  -- 8
          "1001" when "01000110",  -- 9
+			"1010" when "01011010",	 -- Enter
          "1111" when others;      -- -1
 
 end Behavioral;

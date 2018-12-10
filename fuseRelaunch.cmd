@@ -1,1 +1,1 @@
--intstyle "ise" -incremental -o "/home/sd/OPERADOR_BCD/SIMULATION_isim_beh.exe" -prj "/home/sd/OPERADOR_BCD/SIMULATION_beh.prj" "work.SIMULATION" 
+-intstyle "ise" -incremental -o "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/simu_isim_beh.exe" -prj "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/simu_beh.prj" "work.simu" 
