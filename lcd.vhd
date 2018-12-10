@@ -262,9 +262,9 @@ begin
 				--State for normal operations for displaying characters, changing the
 				--Cursor position etc.
 				when stInitDne =>		
-					RS <= LCD_CMDS(lcd_cmd_ptr)(9);
-					RW <= LCD_CMDS(lcd_cmd_ptr)(8);
-					LCD_DB <= LCD_CMDS(lcd_cmd_ptr)(7 downto 0);
+					RS <= '1';
+					RW <= '0';
+					LCD_DB <= in_Char;
 					activateW <= '0';
 					if in_strobe = '1' then
 						stNext <= stActWr;

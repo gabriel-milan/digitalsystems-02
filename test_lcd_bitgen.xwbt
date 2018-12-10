@@ -1,0 +1,8 @@
+INTSTYLE=ise
+INFILE=/media/disk/digitalsystems-02/test_lcd.ncd
+OUTFILE=/media/disk/digitalsystems-02/test_lcd.bit
+FAMILY=Spartan3A and Spartan3AN
+PART=xc3s700an-4fgg484
+WORKINGDIR=/media/disk/digitalsystems-02
+LICENSE=WebPack
+USER_INFO=211545305_0_0_116

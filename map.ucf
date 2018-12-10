@@ -1,0 +1,47 @@
+##############################################################################
+# Clock
+##############################################################################
+
+NET "clk"			LOC = "E12"	|	IOSTANDARD = LVCMOS33;
+
+##############################################################################
+# Discrete Indicators (LED)
+##############################################################################
+
+#NET "leds<0>"        LOC = "R20"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+#NET "leds<1>"        LOC = "T19"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+#NET "leds<2>"        LOC = "U20"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+#NET "leds<3>"        LOC = "U19"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+#NET "leds<4>"        LOC = "V19"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+#NET "leds<5>"        LOC = "V20"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+#NET "leds<6>"        LOC = "Y22"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+#NET "leds<7>"        LOC = "W21"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+
+##############################################################################
+# Mouse and/or Keyboard Connector (PS2)
+##############################################################################
+
+# Primary connection, simply plug device into connector.
+NET "ps2c"     LOC = "W12"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+NET "ps2d"     LOC = "V11"  | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW ;
+
+##############################################################################
+# Liquid Crystal Display (LCD)
+##############################################################################
+NET "LCD_DB<0>" LOC = Y13;
+NET "LCD_DB<1>" LOC = AB18;
+NET "LCD_DB<2>" LOC = AB17;
+NET "LCD_DB<3>" LOC = AB12;
+NET "LCD_DB<4>" LOC = AA12;
+NET "LCD_DB<5>" LOC = Y16;
+NET "LCD_DB<6>" LOC = AB16;
+NET "LCD_DB<7>" LOC = Y15;
+NET "OE" LOC = AB4;
+NET "RS" LOC = Y14;
+NET "RW" LOC = W13;
+
+
+##############################################################################
+# Reset button
+##############################################################################
+NET "rst" LOC = T15;
