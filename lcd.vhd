@@ -1,31 +1,10 @@
-------------------------------------------------------------------
---  lcd.vhd -- general LCD testing program
-------------------------------------------------------------------
---  Author -- Dan Pederson, 2004
---			  -- Barron Barnett, 2004
---			  -- Jacob Beck, 2006
-------------------------------------------------------------------
---  This module is a test module for implementing read/write and
---  initialization routines for an LCD on the Digilab boards
-------------------------------------------------------------------
---  Revision History:								    
---  05/27/2004(DanP):  created
---  07/01/2004(BarronB): (optimized) and added writeDone as output
---  08/12/2004(BarronB): fixed timing issue on the D2SB
---  12/07/2006(JacobB): Revised code to be implemented on a Nexys Board
---				Changed "Hello from Digilent" to be on one line"
---				Added a Shift Left command so that the message
---				"Hello from Diligent" is shifted left by 1 repeatedly
---				Changed the delay of character writes
-------------------------------------------------------------------
-
-
+-- LCD
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
-
+-- Entidade
 entity lcd is
     Port ( 
 	   clk:in std_logic;				--GCLK2
@@ -39,37 +18,28 @@ entity lcd is
 	);
 end lcd;
 
+-- Arquitetura
 architecture Behavioral of lcd is
 			    
-------------------------------------------------------------------
---  Component Declarations
-------------------------------------------------------------------
-
-------------------------------------------------------------------
---  Local Type Declarations
------------------------------------------------------------------
---  Symbolic names for all possible states of the state machines.
-
-	--LCD control state machine
+	-- Máquina de estados para controlar o LCD
 	type mstate is (					  
-		stFunctionSet,		 			--Initialization states
+		stFunctionSet,		 			-- Estados de inicialização
 		stDisplayCtrlSet,
 		stDisplayClear,
-		stPowerOn_Delay,  				--Delay states
+		stPowerOn_Delay,  			-- Estados de delay
 		stFunctionSet_Delay,
 		stDisplayCtrlSet_Delay, 	
 		stDisplayClear_Delay,
-		stInitDne,					--Display charachters and perform standard operations
-		stActWr,
-		stCharDelay					--Write delay for operations
-		--stWait					--Idle state
+		stInitDne,						-- Estado de inicialização completa
+		stActWr,							-- Estado para iniciar a escrita de um caracter
+		stCharDelay						-- Delay de escrita
 	);
 
-	--Write control state machine
+	--Máquina de estados para controlar a escrita
 	type wstate is (
-		stRW,						--set up RS and RW
-		stEnable,					--set up E
-		stIdle						--Write data on DB(0)-DB(7)
+		stRW,							-- Seta seletor de registrador (dados ou comandos) e RW (escrita ou leitura)
+		stEnable,					-- Seta o enable
+		stIdle						-- Escreve os dados presentes no DB (Data Bus)
 	);
 	
 
@@ -78,7 +48,7 @@ architecture Behavioral of lcd is
 ------------------------------------------------------------------
 	--These constants are used to initialize the LCD pannel.
 
-	--FunctionSet:
+	--FunctionSet: 3C = 00111100
 		--Bit 0 and 1 are arbitrary
 		--Bit 2:  Displays font type(0=5x8, 1=5x11)
 		--Bit 3:  Numbers of display lines (0=1, 1=2)
@@ -103,26 +73,25 @@ architecture Behavioral of lcd is
 	signal writeDone:std_logic:= '0';					--Command set finish
 
 	type LCD_CMDS_T is array(integer range <>) of std_logic_vector(9 downto 0);
-	constant LCD_CMDS : LCD_CMDS_T := ( 0 => "00"&X"3C",			--Function Set
-					    1 => "00"&X"0C",			--Display ON, Cursor OFF, Blink OFF
-					    2 => "00"&X"01",			--Clear Display
-					    3 => "00"&X"02"); 			--return home
+	constant LCD_CMDS : LCD_CMDS_T := ( 0 => "00"&X"3C",			--Function Set (Tipo da fonte 5x8, 2 linhas do LCD, dados de 8 bits)
+					    1 => "00"&X"0C",										--Display ON, Cursor OFF, Piscar OFF
+					    2 => "00"&X"01",										--Limpa Display
+					    3 => "00"&X"02"); 									--Retorna o cursor à primeira casa
 
-													
+	-- Ponteiro para percorrer o array de comandos de inicialização												
 	signal lcd_cmd_ptr : integer range 0 to LCD_CMDS'HIGH + 1 := 0;
 begin
  	
-	--  This process counts to 50, and then resets.  It is used to divide the clock signal time.
+	--  Divide o período do clock para que oneUSClk tenha período de 1 microssegundo
 	process (clk, oneUSClk)
     		begin
 			if (clk = '1' and clk'event) then
 				clkCount <= clkCount + 1;
 			end if;
 		end process;
-	--  This makes oneUSClock peak once every 1 microsecond
-
 	oneUSClk <= clkCount(5);
-	--  This process incriments the count variable unless delayOK = 1.
+	
+	--  Esse processo faz o incremento da variável "count" até que o delayOK seja '1'
 	process (oneUSClk, delayOK)
 		begin
 			if (oneUSClk = '1' and oneUSClk'event) then
@@ -134,36 +103,36 @@ begin
 			end if;
 		end process;
 
-	--This goes high when all commands have been run
+	-- writeDone vai para '1' quando o ponteiro percorre todo o array de comandos de inicialização
 	writeDone <= '1' when (lcd_cmd_ptr = LCD_CMDS'HIGH) 
 		else '0';
-	--rdone <= '1' when stCur = stWait else '0';
-	--Increments the pointer so the statemachine goes through the commands
+
+	-- Esse processo incrementa, reseta ou mantém o valor do ponteiro dependendo do próximo estado e do estado atual
 	process (lcd_cmd_ptr, oneUSClk)
    		begin
 			if (oneUSClk = '1' and oneUSClk'event) then
-				--if ((stNext = stInitDne or stNext = stDisplayCtrlSet or stNext = stDisplayClear) and writeDone = '0') then 
+				-- Se próx. estado é o índice 1 ou 2 e a inicialização ainda não foi terminada, incrementa
 				if ((stNext = stDisplayCtrlSet or stNext = stDisplayClear) and writeDone = '0') then 
 					lcd_cmd_ptr <= lcd_cmd_ptr + 1;
+				-- Se o estado atual é o primeiro ou o próximo é o primeiro, zera o ponteiro
 				elsif stCur = stPowerOn_Delay or stNext = stPowerOn_Delay then
 					lcd_cmd_ptr <= 0;
+				-- Em qualquer outro caso, mantém o valor do ponteiro
 				else
 					lcd_cmd_ptr <= lcd_cmd_ptr;
 				end if;
 			end if;
 		end process;
 	
-	--  Determines when count has gotten to the right number, depending on the state.
-
-	delayOK <= '1' when ((stCur = stPowerOn_Delay and count = "00100111001010010") or 			--20050  
-					(stCur = stFunctionSet_Delay and count = "00000000000110010") or	--50
-					(stCur = stDisplayCtrlSet_Delay and count = "00000000000110010") or	--50
-					(stCur = stDisplayClear_Delay and count = "00000011001000000") or	--1600
-					(stCur = stCharDelay and count = "11111111111111111"))			--Max Delay for character writes and shifts
-					--(stCur = stCharDelay and count = "00000000000100101"))		--37  This is proper delay between writes to ram.
+	--  Determina o valor de delay para cada estado
+	delayOK <= '1' when ((stCur = stPowerOn_Delay and count = "00100111001010010") or	-- PowerOn: 20ms  
+					(stCur = stFunctionSet_Delay and count = "00000000000110010") or			-- FunctionSet: 50us
+					(stCur = stDisplayCtrlSet_Delay and count = "00000000000110010") or		-- DisplayCtrlSet: 50us
+					(stCur = stDisplayClear_Delay and count = "00000011001000000") or			-- DisplayClear: 1,6ms
+					(stCur = stCharDelay and count = "11111111111111111"))						-- DelayEscrita: 131,07ms
 		else	'0';
   	
-	-- This process runs the LCD status state machine
+	--	Process para reset síncrono ou mudança de estado baseado em stCur
 	process (oneUSClk, rst)
 		begin
 			if oneUSClk = '1' and oneUSClk'Event then
@@ -174,18 +143,17 @@ begin
 				end if;
 			end if;
 		end process;
-
 	
-	--  This process generates the sequence of outputs needed to initialize and write to the LCD screen
+	--  Process para fazer o sequenciamento da inicialização e manter o loop de escrita
 	process (stCur, delayOK, writeDone, lcd_cmd_ptr)
 		begin   
 		
 			case stCur is
 			
-				--  Delays the state machine for 20ms which is needed for proper startup.
+				--  Para a máquina por 20ms para inicialização correta
 				when stPowerOn_Delay =>
 					if delayOK = '1' then
-						stNext <= stFunctionSet;
+						stNext <= stFunctionSet;	-- Quando delay estiver ok, vai para FunctionSet
 					else
 						stNext <= stPowerOn_Delay;
 					end if;
@@ -194,99 +162,96 @@ begin
 					LCD_DB <= LCD_CMDS(lcd_cmd_ptr)(7 downto 0);
 					activateW <= '0';
 
-				-- This issuse the function set to the LCD as follows 
-				-- 8 bit data length, 2 lines, font is 5x8.
+				-- Faz a configuração do LCD conforme abaixo
+				-- Dados de 8 bits, 2 linhas, Fonte 5x8.
 				when stFunctionSet =>
-					RS <= LCD_CMDS(lcd_cmd_ptr)(9);
-					RW <= LCD_CMDS(lcd_cmd_ptr)(8);
-					LCD_DB <= LCD_CMDS(lcd_cmd_ptr)(7 downto 0);
-					activateW <= '1';	
-					stNext <= stFunctionSet_Delay;
+					RS <= LCD_CMDS(lcd_cmd_ptr)(9); 					-- Aqui será sempre 0
+					RW <= LCD_CMDS(lcd_cmd_ptr)(8); 					-- Aqui será sempre 0
+					LCD_DB <= LCD_CMDS(lcd_cmd_ptr)(7 downto 0); -- X"3C"
+					activateW <= '1';										-- Ativa escrita
+					stNext <= stFunctionSet_Delay;					-- Vai para o delay
 				
-				--Gives the proper delay of 37us between the function set and
-				--the display control set.
+				-- Realiza o delay de 50ms e vai para próximo estado
 				when stFunctionSet_Delay =>
 					RS <= LCD_CMDS(lcd_cmd_ptr)(9);
 					RW <= LCD_CMDS(lcd_cmd_ptr)(8);
 					LCD_DB <= LCD_CMDS(lcd_cmd_ptr)(7 downto 0);
 					activateW <= '0';
 					if delayOK = '1' then
-						stNext <= stDisplayCtrlSet;
+						stNext <= stDisplayCtrlSet;	-- Quando delay estiver ok, vai para DisplayCtrlSet
 					else
 						stNext <= stFunctionSet_Delay;
 					end if;
 				
-				--Issuse the display control set as follows
-				--Display ON,  Cursor OFF, Blinking Cursor OFF.
+				--	Faz o controle do display conforme abaixo
+				-- Display ON,  Cursor OFF, Cursor piscante OFF.
 				when stDisplayCtrlSet =>
-					RS <= LCD_CMDS(lcd_cmd_ptr)(9);
-					RW <= LCD_CMDS(lcd_cmd_ptr)(8);
-					LCD_DB <= LCD_CMDS(lcd_cmd_ptr)(7 downto 0);
-					activateW <= '1';
-					stNext <= stDisplayCtrlSet_Delay;
+					RS <= LCD_CMDS(lcd_cmd_ptr)(9); 					-- Aqui será sempre 0
+					RW <= LCD_CMDS(lcd_cmd_ptr)(8); 					-- Aqui será sempre 0
+					LCD_DB <= LCD_CMDS(lcd_cmd_ptr)(7 downto 0); -- X"0C"
+					activateW <= '1';										-- Ativa escrita
+					stNext <= stDisplayCtrlSet_Delay;				-- Vai para o delay
 
-				--Gives the proper delay of 37us between the display control set
-				--and the Display Clear command. 
+				--	Realiza o delay de 50ms e vai para o próximo estado
 				when stDisplayCtrlSet_Delay =>
 					RS <= LCD_CMDS(lcd_cmd_ptr)(9);
 					RW <= LCD_CMDS(lcd_cmd_ptr)(8);
 					LCD_DB <= LCD_CMDS(lcd_cmd_ptr)(7 downto 0);
 					activateW <= '0';
 					if delayOK = '1' then
-						stNext <= stDisplayClear;
+						stNext <= stDisplayClear;	-- Quando o delay estiver ok, vai para o DisplayClear
 					else
 						stNext <= stDisplayCtrlSet_Delay;
 					end if;
 				
-				--Issues the display clear command.
+				--	Faz a limpeza do display
 				when stDisplayClear	=>
-					RS <= LCD_CMDS(lcd_cmd_ptr)(9);
-					RW <= LCD_CMDS(lcd_cmd_ptr)(8);
-					LCD_DB <= LCD_CMDS(lcd_cmd_ptr)(7 downto 0);
-					activateW <= '1';
-					stNext <= stDisplayClear_Delay;
+					RS <= LCD_CMDS(lcd_cmd_ptr)(9); 					-- Aqui será sempre 0
+					RW <= LCD_CMDS(lcd_cmd_ptr)(8); 					-- Aqui será sempre 0
+					LCD_DB <= LCD_CMDS(lcd_cmd_ptr)(7 downto 0); -- X"01"
+					activateW <= '1';										-- Ativa escrita
+					stNext <= stDisplayClear_Delay;					-- Vai para o delay
 
-				--Gives the proper delay of 1.52ms between the clear command
-				--and the state where you are clear to do normal operations.
+				--	Realiza o delay de 1,6ms e entra no loop de escrita de caracteres
 				when stDisplayClear_Delay =>
 					RS <= LCD_CMDS(lcd_cmd_ptr)(9);
 					RW <= LCD_CMDS(lcd_cmd_ptr)(8);
 					LCD_DB <= LCD_CMDS(lcd_cmd_ptr)(7 downto 0);
 					activateW <= '0';
 					if delayOK = '1' then
-						stNext <= stInitDne;
+						stNext <= stInitDne;	-- Quando o delay estiver ok, finaliza a inicialização
 					else
 						stNext <= stDisplayClear_Delay;
 					end if;
 				
-				--State for normal operations for displaying characters, changing the
-				--Cursor position etc.
+				-- Estado de inicialização completa e também início do looping de escrita
 				when stInitDne =>		
-					RS <= '1';
-					RW <= '0';
-					LCD_DB <= in_Char;
+					RS <= '1';	-- Demonstra que usarei agora o registrador de dados
+					RW <= '0';	-- Em modo de escrita
+					LCD_DB <= in_Char;	-- Joga no barramento de dados o input desejado
 					activateW <= '0';
-					if in_strobe = '1' then
-						stNext <= stActWr;
+					if in_strobe = '1' then	-- Quando o strobe estiver em 1
+						stNext <= stActWr;	-- Inicializa processo de escrita
 					else
 						stNext <= stInitDne;
 					end if;
 
+				-- Estado para iniciar processo de escrita
 				when stActWr =>		
 					RS <= '1';
 					RW <= '0';
 					LCD_DB <= in_Char;
-					activateW <= '1';
-					stNext <= stCharDelay;
+					activateW <= '1';	-- Ativa escrita
+					stNext <= stCharDelay;	-- Vai para o delay
 					
-				--Provides a max delay between instructions.
+				--	Realiza o delay previamente definido para escrita e depois retorna ao estado InitDne
 				when stCharDelay =>
 					RS <= '1';
 					RW <= '0';
 					LCD_DB <= in_Char;
 					activateW <= '0';					
 					if delayOK = '1' then
-						stNext <= stInitDne;
+						stNext <= stInitDne;	-- Quando o delay estiver ok, reteorna a InitDne
 					else
 						stNext <= stCharDelay;
 					end if;
@@ -294,7 +259,7 @@ begin
 		
 		end process;					
 								   
- 	--This process runs the write state machine
+ 	--	Processo para controlar a máquina de estados de escrita e reset síncrono
 	process (oneUSClk, rst)
 		begin
 			if oneUSClk = '1' and oneUSClk'Event then
@@ -306,36 +271,23 @@ begin
 			end if;
 		end process;
 
-	--This genearates the sequence of outputs needed to write to the LCD screen
+	--	Máquina de estados para escrita no LCD
 	process (stCurW, activateW)
 		begin   
 		
 			case stCurW is
-				--This sends the address across the bus telling the DIO5 that we are
-				--writing to the LCD, in this configuration the adr_lcd(2) controls the
-				--enable pin on the LCD
+				-- Habilita o LCD para escrita
 				when stRw =>
 					OE <= '0';
-					--CS <= '0';
-					--ADR2 <= '1';
-					--ADR1 <= '0';
 					stNextW <= stEnable;
 				
-				--This adds another clock onto the wait to make sure data is stable on 
-				--the bus before enable goes low.  The lcd has an active falling edge 
-				--and will write on the fall of enable
+				-- Mantém o enable alto por mais um período de clock para garantir a estabilidade dos dados
 				when stEnable => 
 					OE <= '0';
-					--CS <= '0';
-					--ADR2 <= '0';
-					--ADR1 <= '0';
 					stNextW <= stIdle;
 				
-				--Waiting for the write command from the instuction state machine
+				--	Aguarda comando de habilitação de escrita da outra máquina de estados
 				when stIdle =>
-					--ADR2 <= '0';
-					--ADR1 <= '0';
-					--CS <= '1';
 					OE <= '1';
 					if activateW = '1' then
 						stNextW <= stRw;

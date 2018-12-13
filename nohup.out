@@ -1,0 +1,98 @@
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/ADDER_1BIT.vhd" into library
+   work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/BCD_4DIGIT_ADDER.vhd" into
+   library work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/BCD_AU.vhd" into library
+   work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/BCD_FULLADDER_4BITS.vhd"
+   into library work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/COMPARADOR_1BIT.vhd" into
+   library work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/COMPARADOR_4BITS.vhd" into
+   library work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/FULL_ADDER_4BITS.vhd" into
+   library work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/SIMULATION.vhd" into library
+   work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/binary_parser.vhd" into
+   library work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/contador.vhd" into library
+   work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/contador_lcd_strobe.vhd"
+   into library work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/key_parser.vhd" into library
+   work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/lcd.vhd" into library work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/ps2_rx.vhd" into library
+   work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/simu.vhd" into library work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/simu_somador.vhd" into
+   library work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/test_keyboard.vhd" into
+   library work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/test_lcd.vhd" into library
+   work
+INFO:ProjectMgmt - Parsing design hierarchy completed successfully.
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/ADDER_1BIT.vhd" into library
+   work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/BCD_4DIGIT_ADDER.vhd" into
+   library work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/BCD_AU.vhd" into library
+   work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/BCD_FULLADDER_4BITS.vhd"
+   into library work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/COMPARADOR_1BIT.vhd" into
+   library work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/COMPARADOR_4BITS.vhd" into
+   library work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/FULL_ADDER_4BITS.vhd" into
+   library work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/binary_parser.vhd" into
+   library work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/contador.vhd" into library
+   work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/contador_lcd_strobe.vhd"
+   into library work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/key_parser.vhd" into library
+   work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/lcd.vhd" into library work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/ps2_rx.vhd" into library
+   work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/test_keyboard.vhd" into
+   library work
+INFO:HDLCompiler:1061 - Parsing VHDL file
+   "/home/gabriel-milan/GIT_REPOS/digitalsystems-02/test_lcd.vhd" into library
+   work
+INFO:ProjectMgmt - Parsing design hierarchy completed successfully.
